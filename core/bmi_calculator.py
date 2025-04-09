@@ -1,17 +1,161 @@
-def calculate_bmi(weight, height, unit="metric"):
+import customtkinter as ctk
+import csv
+from datetime import datetime
+import re
+import os
 
-    if unit == "imperial":
-        bmi = 703 * weight / (height ** 2)
-    else:
+# Initialise app window
+app = ctk.CTk()
+app.title("BMI Calculator")
+app.geometry("500x700")
+app.config(bg="#000000")
+
+# Set appearance to dark mode and apply a built-in theme
+ctk.set_appearance_mode("dark")
+ctk.set_default_color_theme("dark-blue")
+
+# Header Label for app
+header = ctk.CTkLabel(app, text="BMI Calculator", font=(
+    "Arial", 14), text_color="#f8b310", bg_color="#000000")
+header.pack(pady=20)
+
+# Name Input
+name_label = ctk.CTkLabel(app, text="Enter your name:", font=(
+    "Arial", 14), text_color="#f8b310", bg_color="#000000")
+name_label.pack(pady=5)
+name_entry = ctk.CTkEntry(app, width=250, height=40, font=(
+    "Arial", 14), text_color="#f8b310", bg_color="#000000")
+name_entry.pack(pady=10)
+
+# Email Input
+email_label = ctk.CTkLabel(app, text="Enter your email:", font=(
+    "Arial", 14), text_color="#f8b310", bg_color="#000000")
+email_label.pack(pady=5)
+email_entry = ctk.CTkEntry(app, width=250, height=40, font=(
+    "Arial", 14), text_color="#f8b310", bg_color="#000000")
+email_entry.pack(pady=10)
+
+# Consent Check box
+consent_var = ctk.BooleanVar()
+consent_checkbox = ctk.CTkCheckBox(app, text="I agree to save my BMI data",
+                                   variable=consent_var, text_color="#f8b310", bg_color="#000000")
+consent_checkbox.pack(pady=10)
+
+# Height and weight input
+height_label = ctk.CTkLabel(app, text="Enter your height (m):", font=(
+    "Arial", 14), text_color="#f8b310", bg_color="#000000")
+height_label.pack(pady=10)
+height_entry = ctk.CTkEntry(app, width=250, height=40, font=(
+    "Arial", 14), text_color="#f8b310", bg_color="#000000")
+height_entry.pack(pady=10)
+
+# Weight input label and entry field
+weight_label = ctk.CTkLabel(app, text="Enter your weight (kg):", font=(
+    "Arial", 14), text_color="#f8b310", bg_color="#000000")
+weight_label.pack(pady=10)
+weight_entry = ctk.CTkEntry(app, width=250, height=40, font=(
+    "Arial", 14), text_color="#f8b310", bg_color="#000000")
+weight_entry.pack(pady=10)
+
+# Function to calculate BMI and display category
+
+
+def calculate_bmi():
+    try:
+        name = name_entry.get().strip()
+        email = email_entry.get().strip()
+        height = float(height_entry.get().strip())
+        weight = float(weight_entry.get().strip())
+
+        # Validate name and email address
+        if not name or not email:
+            result_label.config(
+                text="Please enter your name and email.", text_color="#f8b310")
+            return
+
+        if not re.match(r"[^@]+@[^@]+\.[^@]+", email):
+            result_label.config(
+                text="Please enter a valid email address.", text_color="#f8b310")
+            return
+
+            # Validate height and weight
+        if height <= 0 or weight <= 0:
+            result_label.config(
+                text="Height and weight must be positive values.", text_color="#f8b310")
+            return
+
+        # Calculate bmi
         bmi = weight / (height ** 2)
 
-    if bmi < 18.5:
-        category = "Underweight"
-    elif 18.5 <= bmi < 25:
-        category = "Healthy"
-    elif 25 <= bmi < 30:
-        category = "Overweight"
-    else:
-        category = "Obese"
+        # Determine BMI category
+        if bmi < 18.5:
+            category = "Underweight"
+        elif 18.5 <= bmi < 24.9:
+            category = "Healthy weight"
+        elif 25 <= bmi < 29.9:
+            category = "Overweight"
+        else:
+            category = "Obese"
 
-    return round(bmi, 2), category
+        # Display result to user
+        result_label.config(
+            text=f"Your BMI is {bmi:.2f} ({category})", text_color=f"#f8b310")
+
+        # Save BMI result to CSV if user consent
+        if consent_var.get():
+            save_bmi_result(name, email, height, weight, bmi, category)
+
+    except ValueError:
+        # If user enters non-numeric input
+        result_label.config(
+            text="Please enter valid numbers.", text_color="#f8b310")
+
+
+# Save BMI result to CSV file for logging
+def save_bmi_result(name, email, height, weight, bmi, category):
+    file_exists = os.path.isfile("bmi_history.csv")
+    with open("bmi_history.csv", mode="a", newline="") as file:
+        # Initialise writer
+        writer = csv.writer(file)
+        # Check if file exists is new or empty before writing header
+        if not file_exists or os.stat("bmi_history.csv").st_size == 0:
+            writer.writerow(["Timestamp", "Name", "Email",
+                            "Height (m)", "Weight (kg)", "BMI", "Category"])
+        # Write the actual data
+        writer.writerow([datetime.now().strftime(
+            "%Y-%m-%d %H:%M:%S"), name, email, height, weight, f"{bmi:.2f}", category])
+
+# Reset all fields and result label
+
+
+def reset_fields():
+    name_entry.delete(0, ctk.END)
+    email_entry.delete(0, ctk.END)
+    height_entry.delete(0, ctk.END)
+    weight_entry.delete(0, ctk.END)
+    consent_var.set(False)
+    result_label.config(text="Your BMI will appear here", text_color="#f8b310")
+
+
+# Calculate button
+calculate_button = ctk.CTkButton(
+    app, text="Calculate BMI", command=calculate_bmi, width=200, height=40, font=("Arial", 14, "bold"))
+calculate_button.pack(pady=20)
+
+# Reset button to clear inputs and result
+reset_button = ctk.CTkButton(app, text="Reset", command=reset_fields,
+                             width=200, height=40, font=("Arial", 14, "bold"))
+reset_button.pack(pady=10)
+
+# Result Label
+result_label = ctk.CTkLabel(app, text="Your BMI will appear here", font=(
+    "Arial", 18), text_color="#f8b310", bg_color="#000000")
+result_label.pack(pady=10)
+
+# Footer for app branding or contact information
+footer = ctk.CTkLabel(app, text="Mindful Fitness App | Contact: info@mindfulsportscoach.co.uk",
+                      font=("Arial", 12), text_color="#f8b310", bg_color="#000000")
+footer.pack(side="bottom", pady=10)
+
+# Run the app
+app.mainloop()
