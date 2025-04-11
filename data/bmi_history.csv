@@ -1,0 +1,11 @@
+Timestamp,Name,Email,Height (m),Weight (kg),BMI,Category
+2025-04-11 15:27:43,sam,sam@gmail.com,1.75,97.0,31.67,Obese
+2025-04-11 15:29:08,amy,amy@gmail.com,1.85,61.0,17.82,Underweight
+2025-04-11 15:30:10,john,john@gmail.com,1.4,50.0,25.51,Overweight
+2025-04-11 15:37:47,Fred Flintstone,fred@gmail.com,2.2,200.0,41.32,Obese
+2025-04-11 15:43:08,Amy Churm,Amy@gmail.com,1.75,61.9,20.21,Healthy weight
+"Date: 2025-04-11, Time: 15:53:24",Sam Westlake-Cann,Email: samwestlakecann1@gmail.com,Height: 1.86,Weight: 97.0,BMI: 28.04,Category: Overweight
+"Date: 2025-04-11, Time: 15:54:33",Tom Jones,Email: tom@gmail.com,Height: 1.92,Weight: 50.0,BMI: 13.56,Category: Underweight
+"Date: 2025-04-11, Time: 15:55:38 ",Bob Dylan, Email: bob@hotmail.co.uk, Height: 2.02, Weight: 100.0, BMI: 24.51, Category: Healthy weight
+"Date: 2025-04-11, Time: 15:56:47 ",Henry dud, Email: dud@yahoo.co.uk, Height: 1.23, Weight: 190.0, BMI: 125.59, Category: Obese
+"Date: 2025-04-11, Time: 15:58:00 ", Name: sid bottom, Email: sid@email.com, Height: 1.2, Weight: 50.0, BMI: 34.72, Category: Obese
