@@ -1,0 +1,61 @@
+<OpeningScreen>:
+    ScrollView:
+        AnchorLayout:
+            anchor_y: "top"  # Aligns to the top of the screen
+
+                
+            MDBoxLayout:
+                orientation: "vertical"
+                spacing: dp(10)
+                padding: [dp(20), dp(40)]  # Padding around the edges
+                size_hint_y: None
+                height: self.minimum_height
+
+                MDLabel:
+                    text: "Welcome to The Mindful Sports Coach"
+                    halign: "center"
+                    theme_text_color: "Custom"
+                    text_color: app.theme_cls.primary_light
+                    font_style: "H4"
+                    size_hint_y: None
+                    height: self.texture_size[1] + dp(20)
+
+                AnimatedTextField:
+                    hint_text: "Username"
+                    mode: "rectangle"
+                    pos_hint: {"center_x": 0.5}
+                    size_hint_x: 0.8
+                    height: dp(56)
+                    size_hint_y: None
+
+                AnimatedTextField:
+                    hint_text: "Email"
+                    mode: "rectangle"
+                    pos_hint: {"center_x": 0.5}
+                    size_hint_x: 0.8
+                    height: dp(56)
+                    size_hint_y: None
+                
+                Widget:
+                    size_hint_y: None
+                    height: dp(20)
+
+                MDRaisedButton:
+                    text: "Sign Up"
+                    size_hint_x: 0.8
+                    pos_hint: {"center_x": 0.5}
+                    md_bg_color: app.theme_cls.primary_color
+                    ripple_color: [1, 0.7, 0.1, 0.3]
+                    on_release: print("Sign Up clicked")  # Temporary placeholder
+
+                MDRaisedButton:
+                    text: "Login"
+                    size_hint_x: 0.8
+                    pos_hint: {"center_x": 0.5}
+                    on_release: print("Login clicked")  # Temporary placeholder
+
+                MDRaisedButton:
+                    text: "Use BMI Calculator"
+                    size_hint_x: 0.8
+                    pos_hint: {"center_x": 0.5}
+                    on_release: print("BMI Calculator clicked")  # Temporary placeholder
